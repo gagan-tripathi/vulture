@@ -44,12 +44,17 @@ class App extends React.Component {
     return (
       <div className="container">
         <div className="titlebar">
-          <div className="close" onClick={this.closeWindow}>
-            <img src={closeIcon} className="closeIcon" />
+          <div className="appTitle">Vulture</div>
+          <div className="appTitlePlus">+</div>
+          <div className="navigationAction">
+            <div className="close" onClick={this.closeWindow}>
+              <img src={closeIcon} className="closeIcon" />
+            </div>
+            <div className="minimize" onClick={this.minimizeWindow}>
+              <img src={minimizeIcon} className="minimizeIcon" />
+            </div>
           </div>
-          <div className="minimize" onClick={this.minimizeWindow}>
-            <img src={minimizeIcon} className="minimizeIcon" />
-          </div>
+
           <div className="absolute-titlebar">
             <div className="search-bar-btn" onClick={this.toggleSerach}>
               <img src={searchIcon} className="searchIcon" />
@@ -58,20 +63,9 @@ class App extends React.Component {
               <input className={this.state.searchBarActive == true ? "search-bar-tf-active" : "search-bar-tf-inactive"}>
               </input>
             </div>
-            <div className="settings-btn">
-              <img src={settingsIcon} className="settingsIcon" />
-            </div>
           </div>
         </div>
         <div className="main-area">
-          <div className="sidebar">
-            <div className="sidebar-child">
-              <div className="sidebar-child-absolute">
-                <img src={settingsIcon} className="sidebar-icon" />
-                <p className="sidebar-text-active" onMouseOver={this.changeWidth}>this is text</p>
-              </div>
-            </div>
-          </div>
           <div className="main-container">
 
           </div>
