@@ -4,6 +4,7 @@ import closeIcon from './assets/titlebar/close.png';
 import minimizeIcon from './assets/titlebar/minimize.png';
 import searchIcon from './assets/titlebar/search.png';
 import settingsIcon from './assets/titlebar/settings.png';
+import iconArrow from '../src/assets/main-container/icon-arrow.png';
 const { remote } = window.require('electron');
 
 class App extends React.Component {
@@ -11,7 +12,13 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchBarActive: false,
+      sidebarWidth: 215,
     };
+  }
+
+  getMaximized() {
+    var window = remote.getCurrentWindow();
+    window.isMaximized() ? this.setState({ sidebarWidth: 300 }) : this.setState({ sidebarWidth: 215 });
   }
 
   closeWindow() {
@@ -59,19 +66,123 @@ class App extends React.Component {
             <div className="search-bar-btn" onClick={this.toggleSerach}>
               <img src={searchIcon} className="searchIcon" />
             </div>
-            <div className={this.state.searchBarActive == true ? "search-bar-active" : "search-bar-inactive"}>
+            {/* <div className={this.state.searchBarActive == true ? "search-bar-active" : "search-bar-inactive"}>
               <input className={this.state.searchBarActive == true ? "search-bar-tf-active" : "search-bar-tf-inactive"}>
+              </input>
+            </div> */}
+            <div className="search-bar-active">
+              <input className="search-bar-tf-active" placeholder="Search here">
               </input>
             </div>
           </div>
         </div>
         <div className="main-area">
+          <div className="main-sidebar" style={{ width: this.state.sidebarWidth }}>
+            <div className="main-sidebar-trending-section"></div>
+            <div className="main-sidebar-subreddit-section"></div>
+          </div>
           <div className="main-container">
+            <div className="main-container-list-sort-area">
+              <div className="main-container-list-sort-item main-container-list-sort-item-selected">Hot</div>
+              <div className="main-container-list-sort-item">New</div>
+              <div className="main-container-list-sort-item">Top</div>
+            </div>
+            <div className="main-container-list">
+              <div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div>
 
+
+
+
+
+
+              <div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-count">1.2k</div>
+                  <img src={iconArrow} className="downvote-img" />
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
           </div>
         </div>
         <script src=""></script>
-      </div>
+      </div >
     );
   }
 }

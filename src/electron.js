@@ -6,15 +6,16 @@ const isDev = require('electron-is-dev')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 900,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
-    transparent: false, 
+    transparent: false,
     frame: false
   })
 
@@ -26,7 +27,7 @@ function createWindow () {
       : `file://${path.join(__dirname, '../public/index.html')}`,
   )
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
