@@ -47,6 +47,22 @@ class App extends React.Component {
     e.target.style.width = 50;
   }
 
+  fetchMemes() {
+    let parentdiv = document.createElement('div')
+    parentdiv.className='main-container-list-item'
+    
+    fetch('http://www.reddit.com/r/memes.json')
+    .then(response => response.json())
+    .then(body => {
+      for (let index=0; index<body.data.children.length; index++) {
+        let img = document.createElement('div')
+        img.className = 'main-container-list-item-img'
+
+      }
+      
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -90,9 +106,13 @@ class App extends React.Component {
             <div className="main-container-list">
               <div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -108,9 +128,13 @@ class App extends React.Component {
 
               <div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -119,9 +143,13 @@ class App extends React.Component {
                 </div>
               </div><div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -130,9 +158,13 @@ class App extends React.Component {
                 </div>
               </div><div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -141,9 +173,13 @@ class App extends React.Component {
                 </div>
               </div><div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -152,9 +188,13 @@ class App extends React.Component {
                 </div>
               </div><div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -163,9 +203,28 @@ class App extends React.Component {
                 </div>
               </div><div className="main-container-list-item">
                 <div className="main-container-list-item-voting">
-                  <img src={iconArrow} className="upvote-img" />
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
                   <div className="vote-count">1.2k</div>
-                  <img src={iconArrow} className="downvote-img" />
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
+                </div>
+                <div className="main-container-list-item-img" />
+                <div className="main-container-list-item-detail">
+                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
+                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
+                </div>
+              </div><div className="main-container-list-item">
+                <div className="main-container-list-item-voting">
+                  <div className="vote-container">
+                    <div className="upvote-symbol"></div>
+                  </div>
+                  <div className="vote-count">1.2k</div>
+                  <div className="vote-container">
+                    <div className="downvote-symbol"></div>
+                  </div>
                 </div>
                 <div className="main-container-list-item-img" />
                 <div className="main-container-list-item-detail">
@@ -173,6 +232,8 @@ class App extends React.Component {
                   <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
                 </div>
               </div>
+
+
 
 
 

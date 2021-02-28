@@ -1,3 +1,23 @@
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(155, 155, 155); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 .container {
   background-color: #282c34;
   /* background-color: white; */
@@ -286,13 +306,19 @@
   background-color: rgb(246, 246, 246);
 }
 
+.main-container-list-sort-item:active {
+  background-color: rgb(228, 228, 228);
+}
+
 .main-container-list-sort-item-selected {
   font-weight: bold;
   color: #FE3D1B;
 }
 
 .main-container-list {
-  height: 100vh;
+  /* height: 100vh; */
+  /* width: 100%; */
+  height: calc(100vh - 95.5px);
   /* background-color: red; */
   display: flex;
   flex-direction: column;
@@ -300,9 +326,9 @@
 }
 
 .main-container-list-item {
-  width: 98%;
-  margin-left: auto;
-  margin-right: auto;
+  flex: 1;
+  /* margin-left: auto;
+  margin-right: auto; */
   height: 80px;
   border-bottom: .5px solid rgb(241, 241, 241);
   display: flex;
@@ -338,6 +364,7 @@
 
 .vote-count {
   font-size: 14px;
+  margin: 3px 0;
 }
 
 .main-container-list-item-img {
@@ -361,4 +388,37 @@
 .main-container-list-item-time {
   font-size: 12px;
   margin-top: 5px;
+}
+
+.upvote-symbol {
+  width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 11px solid #555;
+}
+
+.downvote-symbol {
+  width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 11px solid #555;
+  transform: rotate(180deg);
+}
+
+.vote-container {
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.vote-container:hover {
+  background-color: rgb(246, 246, 246);
+}
+
+.vote-container:active {
+  background-color: rgb(228, 228, 228);
 }
