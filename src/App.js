@@ -13,6 +13,12 @@ class App extends React.Component {
     this.state = {
       searchBarActive: false,
       sidebarWidth: 215,
+      postList: [
+
+      ],
+      trendingSubredditList: [
+
+      ],
     };
   }
 
@@ -49,18 +55,37 @@ class App extends React.Component {
 
   fetchMemes() {
     let parentdiv = document.createElement('div')
-    parentdiv.className='main-container-list-item'
-    
-    fetch('http://www.reddit.com/r/memes.json')
-    .then(response => response.json())
-    .then(body => {
-      for (let index=0; index<body.data.children.length; index++) {
-        let img = document.createElement('div')
-        img.className = 'main-container-list-item-img'
+    parentdiv.className = 'main-container-list-item'
 
-      }
-      
-    })
+    fetch('http://www.reddit.com/r/memes/new.json')
+      .then(response => response.json())
+      .then(body => {
+        for (let index = 0; index < body.data.children.length; index++) {
+          let img = document.createElement('div')
+          img.className = 'main-container-list-item-img'
+
+        }
+      })
+  }
+
+  componentDidMount() {
+    fetch('http://www.reddit.com/top.json')
+      .then(response => response.json())
+      .then(body => {
+        for (let index = 0; index < body.data.children.length; index++) {
+          this.setState({
+            postList: [
+              ...this.state.postList,
+              {
+                title: body.data.children[index].data.title,
+                img: body.data.children[index].data.url_overridden_by_dest,
+                score: body.data.children[index].data.score,
+                author: body.data.children[index].data.author,
+              }
+            ]
+          })
+        }
+      })
   }
 
   render() {
@@ -104,134 +129,32 @@ class App extends React.Component {
               <div className="main-container-list-sort-item">Top</div>
             </div>
             <div className="main-container-list">
-              <div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
+              {
+                this.state.postList.map(item =>
+                  <div className="main-container-list-item">
+                    <div className="main-container-list-item-voting">
+                      <div className="vote-container">
+                        <div className="upvote-symbol"></div>
+                      </div>
+                      <div className="vote-count">{item.score}</div>
+                      <div className="vote-container">
+                        <div className="downvote-symbol"></div>
+                      </div>
+                    </div>
+                    <img src={item.img} className="main-container-list-item-img" />
+                    <div className="main-container-list-item-detail">
+                      <div className="main-container-list-item-title">{item.title}</div>
+                      <div className="main-container-list-item-time">2 hours ago by <a>{item.author}</a></div>
+                    </div>
                   </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div>
+                )
+              }
 
 
 
 
 
 
-              <div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div><div className="main-container-list-item">
-                <div className="main-container-list-item-voting">
-                  <div className="vote-container">
-                    <div className="upvote-symbol"></div>
-                  </div>
-                  <div className="vote-count">1.2k</div>
-                  <div className="vote-container">
-                    <div className="downvote-symbol"></div>
-                  </div>
-                </div>
-                <div className="main-container-list-item-img" />
-                <div className="main-container-list-item-detail">
-                  <div className="main-container-list-item-title">Quit my digital map job and picked up woodworking.</div>
-                  <div className="main-container-list-item-time">2 hours ago by <a>z3ven</a></div>
-                </div>
-              </div>
 
 
 
