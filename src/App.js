@@ -19,6 +19,13 @@ class App extends React.Component {
       trendingSubredditList: [
 
       ],
+      subredditList: [
+        // {name: 'Home'},
+        // {name: 'wallstreetbets'},
+        // {name: 'AskReddit'},
+        // {name: 'Minecraft'},
+        // {name: 'Minecraft'},
+      ]
     };
   }
 
@@ -86,6 +93,24 @@ class App extends React.Component {
           })
         }
       })
+    this.loadTrendingSubredditList();
+  }
+
+  loadTrendingSubredditList() {
+    fetch('https://api.reddit.com/subreddits/popular.json')
+      .then(response => response.json())
+      .then(body => {
+        for (let index = 0; index < body.data.children.length; index++) {
+          this.setState({
+            trendingSubredditList: [
+              ...this.state.trendingSubredditList,
+              {
+                name: body.data.children[index].data.display_name,
+              }
+            ]
+          })
+        }
+      })
   }
 
   render() {
@@ -112,7 +137,7 @@ class App extends React.Component {
               </input>
             </div> */}
             <div className="search-bar-active">
-              <input className="search-bar-tf-active" placeholder="Search here">
+              <input className="search-bar-tf-active" placeholder="Search Subreddits">
               </input>
             </div>
           </div>
@@ -120,7 +145,18 @@ class App extends React.Component {
         <div className="main-area">
           <div className="main-sidebar" style={{ width: this.state.sidebarWidth }}>
             <div className="main-sidebar-trending-section"></div>
-            <div className="main-sidebar-subreddit-section"></div>
+            <div className="main-sidebar-subreddit-section">
+              <div className="main-sidebar-subreddit-section-title-area">
+                <div className="main-sidebar-subreddit-section-title-area-title">Trending</div>
+              </div>
+              {
+                this.state.trendingSubredditList.map(item =>
+                  <div className="subreddit-list-item">
+                    <div className="subreddit-list-item-name">r/{item.name}</div>
+                  </div>
+                )
+              }
+            </div>
           </div>
           <div className="main-container">
             <div className="main-container-list-sort-area">
