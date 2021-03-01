@@ -113,6 +113,30 @@ class App extends React.Component {
       })
   }
 
+
+  loadPostListByTopic = (item) => {
+    this.setState({
+      postList: []
+    })
+    fetch('http://www.reddit.com/r/' + item + '.json')
+      .then(response => response.json())
+      .then(body => {
+        for (let index = 0; index < body.data.children.length; index++) {
+          this.setState({
+            postList: [
+              ...this.state.postList,
+              {
+                title: body.data.children[index].data.title,
+                img: body.data.children[index].data.url_overridden_by_dest,
+                score: body.data.children[index].data.score,
+                author: body.data.children[index].data.author,
+              }
+            ]
+          })
+        }
+      })
+  }
+
   render() {
     return (
       <div className="container">
@@ -149,13 +173,15 @@ class App extends React.Component {
               <div className="main-sidebar-subreddit-section-title-area">
                 <div className="main-sidebar-subreddit-section-title-area-title">Trending</div>
               </div>
-              {
-                this.state.trendingSubredditList.map(item =>
-                  <div className="subreddit-list-item">
-                    <div className="subreddit-list-item-name">r/{item.name}</div>
-                  </div>
-                )
-              }
+              <div className="main-sidebar-subreddit-section-list">
+                {
+                  this.state.trendingSubredditList.map(item =>
+                    <div className="subreddit-list-item" onClick={() => { this.loadPostListByTopic(item.name) }}>
+                      <div className="subreddit-list-item-name">r/{item.name}</div>
+                    </div>
+                  )
+                }
+              </div>
             </div>
           </div>
           <div className="main-container">
