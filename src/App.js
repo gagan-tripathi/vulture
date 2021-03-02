@@ -6,12 +6,16 @@ import searchIcon from './assets/titlebar/search.png';
 import settingsIcon from './assets/titlebar/settings.png';
 import iconArrow from '../src/assets/main-container/icon-arrow.png';
 import defaultPost from '../src/assets/main-container/default-post-img.jpg'
+
+import FloatingPost from '../src/components/floatingPost/index'
+
+
 const { remote } = window.require('electron');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.floatingPostRef = React.createRef();
+    // this.floatingPostRef = React.createRef();
     this.state = {
       searchBarActive: false,
       sidebarWidth: 215,
@@ -26,10 +30,21 @@ class App extends React.Component {
 
       ],
       searchText: '',
+      currPost: {},
     };
   }
 
-  handleFloatingPost() {
+  handleFloatingPost(item) {
+    
+    if (this.state.isFloatingPostShown == false) {
+      this.setState({
+        currPost: {
+          title: item.title,
+          url: item.url,
+          author: item.author,
+        },
+      })
+    }
     if (this.state.isFloatingPostShown == false)
       this.setState({ isFloatingPostShown: true })
     else
@@ -81,6 +96,7 @@ class App extends React.Component {
                 img: body.data.children[index].data.thumbnail,
                 score: body.data.children[index].data.score,
                 author: body.data.children[index].data.author,
+                url: body.data.children[index].data.url,
               }
             ]
           })
@@ -123,6 +139,7 @@ class App extends React.Component {
                 img: body.data.children[index].data.thumbnail,
                 score: body.data.children[index].data.score,
                 author: body.data.children[index].data.author,
+                url: body.data.children[index].data.url,
               }
             ]
           })
@@ -147,6 +164,7 @@ class App extends React.Component {
                   img: body.data.children[index].data.thumbnail,
                   score: body.data.children[index].data.score,
                   author: body.data.children[index].data.author,
+                  url: body.data.children[index].data.url,
                 }
               ]
             })
@@ -215,7 +233,7 @@ class App extends React.Component {
             <div className="main-container-list">
               {
                 this.state.postList.map(item =>
-                  <div className="main-container-list-item" onClick={() => {this.handleFloatingPost();}}>
+                  <div className="main-container-list-item" onClick={() => { this.handleFloatingPost(item); }}>
                     <div className="main-container-list-item-voting">
                       <div className="vote-container">
                         <div className="upvote-symbol"></div>
@@ -239,9 +257,11 @@ class App extends React.Component {
                 )
               }
             </div>
-            <div ref={this.floatingPostRef} class={this.state.isFloatingPostShown == false ? "main-container-floating-post" : "main-container-floating-post-open"} onClick={() => {this.handleFloatingPost();}}>
-              {/* rrrr */}
-            </div>
+            <FloatingPost
+              shown={this.state.isFloatingPostShown}
+              handleClose={() => { this.handleFloatingPost() }}
+              item={this.state.currPost}
+            />
           </div>
         </div>
         <script src=""></script>
