@@ -5,14 +5,17 @@ import minimizeIcon from './assets/titlebar/minimize.png';
 import searchIcon from './assets/titlebar/search.png';
 import settingsIcon from './assets/titlebar/settings.png';
 import iconArrow from '../src/assets/main-container/icon-arrow.png';
+import defaultPost from '../src/assets/main-container/default-post-img.jpg'
 const { remote } = window.require('electron');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.floatingPostRef = React.createRef();
     this.state = {
       searchBarActive: false,
       sidebarWidth: 215,
+      isFloatingPostShown: false,
       postList: [
 
       ],
@@ -20,13 +23,17 @@ class App extends React.Component {
 
       ],
       subredditList: [
-        // {name: 'Home'},
-        // {name: 'wallstreetbets'},
-        // {name: 'AskReddit'},
-        // {name: 'Minecraft'},
-        // {name: 'Minecraft'},
-      ]
+
+      ],
+      searchText: '',
     };
+  }
+
+  handleFloatingPost() {
+    if (this.state.isFloatingPostShown == false)
+      this.setState({ isFloatingPostShown: true })
+    else
+      this.setState({ isFloatingPostShown: false })
   }
 
   getMaximized() {
@@ -60,21 +67,6 @@ class App extends React.Component {
     e.target.style.width = 50;
   }
 
-  fetchMemes() {
-    let parentdiv = document.createElement('div')
-    parentdiv.className = 'main-container-list-item'
-
-    fetch('http://www.reddit.com/r/memes/new.json')
-      .then(response => response.json())
-      .then(body => {
-        for (let index = 0; index < body.data.children.length; index++) {
-          let img = document.createElement('div')
-          img.className = 'main-container-list-item-img'
-
-        }
-      })
-  }
-
   componentDidMount() {
     fetch('http://www.reddit.com/top.json')
       .then(response => response.json())
@@ -85,7 +77,8 @@ class App extends React.Component {
               ...this.state.postList,
               {
                 title: body.data.children[index].data.title,
-                img: body.data.children[index].data.url_overridden_by_dest,
+                // img: body.data.children[index].data.url_overridden_by_dest,
+                img: body.data.children[index].data.thumbnail,
                 score: body.data.children[index].data.score,
                 author: body.data.children[index].data.author,
               }
@@ -127,7 +120,7 @@ class App extends React.Component {
               ...this.state.postList,
               {
                 title: body.data.children[index].data.title,
-                img: body.data.children[index].data.url_overridden_by_dest,
+                img: body.data.children[index].data.thumbnail,
                 score: body.data.children[index].data.score,
                 author: body.data.children[index].data.author,
               }
@@ -135,6 +128,35 @@ class App extends React.Component {
           })
         }
       })
+  }
+
+  _handleSearchResult = (e) => {
+    if (e.key === 'Enter') {
+      this.setState({
+        postList: []
+      })
+      fetch('http://www.reddit.com/search.json?q=' + this.state.searchText)
+        .then(response => response.json())
+        .then(body => {
+          for (let index = 0; index < body.data.children.length; index++) {
+            this.setState({
+              postList: [
+                ...this.state.postList,
+                {
+                  title: body.data.children[index].data.title,
+                  img: body.data.children[index].data.thumbnail,
+                  score: body.data.children[index].data.score,
+                  author: body.data.children[index].data.author,
+                }
+              ]
+            })
+          }
+        })
+    }
+  }
+
+  formatScore(num) {
+    return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
   }
 
   render() {
@@ -161,7 +183,7 @@ class App extends React.Component {
               </input>
             </div> */}
             <div className="search-bar-active">
-              <input className="search-bar-tf-active" placeholder="Search Subreddits">
+              <input className="search-bar-tf-active" placeholder="Search here" onChange={(e) => { this.setState({ searchText: e.target.value }) }} onKeyDown={this._handleSearchResult}>
               </input>
             </div>
           </div>
@@ -176,7 +198,7 @@ class App extends React.Component {
               <div className="main-sidebar-subreddit-section-list">
                 {
                   this.state.trendingSubredditList.map(item =>
-                    <div className="subreddit-list-item" onClick={() => { this.loadPostListByTopic(item.name) }}>
+                    <div className="subreddit-list-item" onClick={() => { this.loadPostListByTopic(item.name); }}>
                       <div className="subreddit-list-item-name">r/{item.name}</div>
                     </div>
                   )
@@ -193,17 +215,22 @@ class App extends React.Component {
             <div className="main-container-list">
               {
                 this.state.postList.map(item =>
-                  <div className="main-container-list-item">
+                  <div className="main-container-list-item" onClick={() => {this.handleFloatingPost();}}>
                     <div className="main-container-list-item-voting">
                       <div className="vote-container">
                         <div className="upvote-symbol"></div>
                       </div>
-                      <div className="vote-count">{item.score}</div>
+                      <div className="vote-count">{this.formatScore(item.score)}</div>
                       <div className="vote-container">
                         <div className="downvote-symbol"></div>
                       </div>
                     </div>
-                    <img src={item.img} className="main-container-list-item-img" />
+                    {item.img === 'self' || item.img === 'default' || item.img == '' || item.img == 'nsfw' || item.img == 'spoiler' ?
+                      <img src={defaultPost} className="main-container-list-item-img" />
+                      :
+                      <img src={item.img} className="main-container-list-item-img" />
+                    }
+
                     <div className="main-container-list-item-detail">
                       <div className="main-container-list-item-title">{item.title}</div>
                       <div className="main-container-list-item-time">2 hours ago by <a>{item.author}</a></div>
@@ -211,19 +238,9 @@ class App extends React.Component {
                   </div>
                 )
               }
-
-
-
-
-
-
-
-
-
-
-
-
-
+            </div>
+            <div ref={this.floatingPostRef} class={this.state.isFloatingPostShown == false ? "main-container-floating-post" : "main-container-floating-post-open"} onClick={() => {this.handleFloatingPost();}}>
+              {/* rrrr */}
             </div>
           </div>
         </div>
